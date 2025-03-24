@@ -12,14 +12,14 @@ const DOMAIN = process.env.DOMAIN || 'localhost:3000'
 const PROTOCOL = process.env.NODE_ENV == 'production' ? 'https' : 'http'
 
 const Register = () => {
-  const mailgun = new Mailgun(formData)
-  const mg = mailgun.client({
-    username: 'api',
-    key: API_KEY,
-  })
-
   const registerUser = async (data: FormData) => {
     'use server'
+
+    const mailgun = new Mailgun(formData)
+    const mg = mailgun.client({
+      username: 'api',
+      key: API_KEY,
+    })
     const password = await hash(data.get('password') as string, 12)
     const user = await prisma.user.create({
       data: {
