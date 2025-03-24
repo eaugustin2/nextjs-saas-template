@@ -10,6 +10,7 @@ This is a NextJS REST API Template.
 - Eslint
 - bcrypt
 - Tailwind
+- Mailgun
 
 ## Getting Started
 
