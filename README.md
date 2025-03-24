@@ -61,6 +61,8 @@ npx prisma db seed
 | --------------- | -------------------------------------------------------------------------------------------------------- |
 | DATABASE_URL    | Postgres connection string example "postgresql://username:password@localhost:port/postgres?schema=schema |
 | NEXTAUTH_SECRET | JWT Hash                                                                                                 |
+| MAILGUN_API_KEY | API Key for mailgun                                                                                      |
+| MAILGUN_DOMAIN  | Domain used for mailgun API                                                                              |
 
 ## Deploy on Vercel
 
