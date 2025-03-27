@@ -55,19 +55,27 @@ const Register = () => {
       <div className={styles.card}>
         <h1>Create an Account</h1>
         <form action={registerUser} className={styles.form}>
-          <div className={styles.formInput}>
-            <span>Name:</span>
-            <input name="name" />
+          <div className={styles.formInputContainer}>
+            <span className={styles.formLabel}>Name:</span>
+            <input name="name" className={styles.formInput} />
           </div>
-          <div className={styles.formInput}>
-            <span>Email:</span>
-            <input name="email" type="email" />
+          <div className={styles.formInputContainer}>
+            <span className={styles.formLabel}>Email:</span>
+            <input name="email" type="email" className={styles.formInput} />
           </div>
-          <div className={styles.formInput}>
-            <span>Password:</span>
-            <input name="password" type="password" />
+          <div className={styles.formInputContainer}>
+            <span className={styles.formLabel}>Password:</span>
+            <input
+              name="password"
+              type="password"
+              className={styles.formInput}
+            />
           </div>
-          <button type="submit">Register</button>
+          <div className={styles.formButtonContainer}>
+            <button className={styles.formButton} type="submit">
+              Register
+            </button>
+          </div>
         </form>
       </div>
       <p>
