@@ -11,6 +11,7 @@ This is a NextJS REST API Template.
 - bcrypt
 - Tailwind
 - Mailgun
+- Zod
 
 ## Getting Started
 
