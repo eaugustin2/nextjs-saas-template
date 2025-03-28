@@ -69,7 +69,7 @@ const ForgotPassword = () => {
         </form>
       </div>
       <p>
-        Have an account? <Link href="/api/auth/signin">Sign In</Link>
+        Have an account? <Link href="/login">Sign In</Link>
       </p>
     </div>
   )

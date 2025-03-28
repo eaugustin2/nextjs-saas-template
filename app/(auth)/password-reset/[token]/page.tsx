@@ -69,7 +69,7 @@ const PasswordReset = ({ params }: { params: { token: string } }) => {
       console.error(e)
       return e
     }
-    redirect('/api/auth/signin')
+    redirect('/login')
   }
   return (
     <div className={styles.container}>

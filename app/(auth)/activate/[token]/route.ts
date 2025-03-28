@@ -52,5 +52,5 @@ export const GET = async (
     },
   })
 
-  redirect('/api/auth/signin')
+  redirect('/login')
 }
