@@ -56,3 +56,14 @@
 .formButton:hover {
   background-color: #513dd9;
 }
+
+.errorContainer {
+  display: flex;
+  text-wrap: none;
+  background-color: #fa5f55;
+  border-radius: 8px;
+}
+
+.errorMessage {
+  padding: 10px;
+}
