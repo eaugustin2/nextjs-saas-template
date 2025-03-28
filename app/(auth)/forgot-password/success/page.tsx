@@ -8,7 +8,7 @@ const ForgotPasswordSuccess = () => {
         <h1>Reset Password Success</h1>
         <p>Email has been sent, please check spam</p>
         <button>
-          <Link href="/api/auth/signin">Return to login</Link>
+          <Link href="/login">Return to login</Link>
         </button>
       </div>
     </div>
