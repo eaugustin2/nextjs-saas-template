@@ -1,0 +1,69 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 15vh;
+}
+
+.card {
+  background-color: white;
+  padding: 48px;
+  border: 1px #bacdd8 solid;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formLabel {
+  font-weight: 500;
+}
+
+.formInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formInput {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: rgba(60, 66, 87, 0.16) 0px 0px 0px 1px;
+  width: 100%;
+}
+
+.formButtonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.formButton {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  background-color: #8d7ffa;
+  color: white;
+}
+
+.formButton:hover {
+  background-color: #513dd9;
+}
+
+.errorContainer {
+  display: flex;
+  text-wrap: none;
+  background-color: #fa5f55;
+  border-radius: 8px;
+}
+
+.errorMessage {
+  padding: 10px;
+}
