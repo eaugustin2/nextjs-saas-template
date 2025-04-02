@@ -7,6 +7,7 @@ import { randomUUID } from 'crypto'
 import formData from 'form-data' // form-data v4.0.1
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { registerRateLimit } from '@/lib/rateLimit'
 
 const API_KEY = process.env.MAILGUN_API_KEY || ''
 const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || ''
@@ -35,6 +36,14 @@ export const registerUser = async (data: FormData) => {
 
   if (!validEmail.success) {
     return { error: 'Invalid Email' }
+  }
+
+  const { success } = await registerRateLimit.limit(email)
+
+  if (!success) {
+    return {
+      error: 'Too many registration attempts, Please try again in 30 minutes',
+    }
   }
 
   const existingUser = await prisma.user.findUnique({
