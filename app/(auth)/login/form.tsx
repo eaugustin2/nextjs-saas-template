@@ -20,6 +20,7 @@ export const Form = () => {
 
     if (!success) {
       setError('Too many login attempts, Please try again in 15 minutes')
+      return
     }
 
     try {
