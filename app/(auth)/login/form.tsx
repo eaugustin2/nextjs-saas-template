@@ -3,6 +3,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import styles from './login.module.css'
 import { signIn } from 'next-auth/react'
+import { loginRateLimit } from '@/lib/rateLimit'
 
 export const Form = () => {
   const router = useRouter()
@@ -14,6 +15,13 @@ export const Form = () => {
 
   const loginUser = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const { success } = await loginRateLimit.limit(email)
+
+    if (!success) {
+      setError('Too many login attempts, Please try again in 15 minutes')
+    }
+
     try {
       const res = await signIn('credentials', {
         redirect: false,
@@ -21,7 +29,7 @@ export const Form = () => {
         password,
         callbackUrl,
       })
-      console.log('Res', res)
+
       if (!res?.error) {
         router.push(callbackUrl)
       } else {
