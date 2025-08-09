@@ -10,22 +10,22 @@ export const GET = async (
 
   const user = await prisma.user.findFirst({
     where: {
-      ActivateToken: {
-        some: {
-          AND: [
-            {
-              activatedAt: null,
+      OTPToken: {
+        // some: {
+        AND: [
+          {
+            activatedAt: null,
+          },
+          {
+            createdAt: {
+              gt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 24 hours ago
             },
-            {
-              createdAt: {
-                gt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 24 hours ago
-              },
-            },
-            {
-              token,
-            },
-          ],
-        },
+          },
+          {
+            token,
+          },
+        ],
+        // },
       },
     },
   })
@@ -43,7 +43,7 @@ export const GET = async (
     },
   })
 
-  await prisma.activateToken.update({
+  await prisma.oTPToken.update({
     where: {
       token,
     },

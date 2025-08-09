@@ -15,7 +15,7 @@ export const Form = () => {
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  // const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   return (
     <form action={handleRegisterUser} className={styles.form}>
@@ -40,7 +40,7 @@ export const Form = () => {
           required
         />
       </div>
-      <div className={styles.formInputContainer}>
+      {/* <div className={styles.formInputContainer}>
         <span className={styles.formLabel}>Password:</span>
         <input
           name="password"
@@ -50,7 +50,7 @@ export const Form = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-      </div>
+      </div> */}
       {error && (
         <div className={styles.errorContainer}>
           <span className={styles.errorMessage}>{error}</span>

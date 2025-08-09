@@ -9,6 +9,6 @@ export { default } from 'next-auth/middleware'
 //We are whitelisting what routes not to protect here. Any route not listed below is protected
 export const config = {
   matcher: [
-    '/((?!register|api|login|forgot-password|password-reset|activate).*)',
+    '/((?!start|register|api|login|forgot-password|password-reset|activate).*)',
   ],
 }

@@ -5,7 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: '/login',
+    signIn: '/start',
   },
   session: {
     strategy: 'jwt',
@@ -19,10 +19,9 @@ export const authOptions: NextAuthOptions = {
           type: 'email',
           placeholder: 'hello@example.com',
         },
-        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
+        if (!credentials?.email) {
           return null
         }
 
@@ -38,15 +37,6 @@ export const authOptions: NextAuthOptions = {
 
         if (!user.active) {
           throw new Error('User is not active')
-        }
-
-        const isPasswordValid = await compare(
-          credentials.password,
-          user.password
-        )
-
-        if (!isPasswordValid) {
-          return null
         }
 
         return {

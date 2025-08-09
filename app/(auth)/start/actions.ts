@@ -3,30 +3,29 @@
 import Mailgun from 'mailgun.js'
 import { hash } from 'bcrypt'
 import { prisma } from '@/lib/prisma'
-import { randomInt, randomUUID } from 'crypto'
+import { randomInt } from 'crypto'
 import formData from 'form-data' // form-data v4.0.1
-import { redirect } from 'next/navigation'
 import { z } from 'zod'
-import { registerRateLimit } from '@/lib/rateLimit'
+import { cookies } from 'next/headers'
+//import { registerRateLimit } from '@/lib/rateLimit'
 
 const API_KEY = process.env.MAILGUN_API_KEY || ''
 const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || ''
-const DOMAIN = process.env.DOMAIN || 'localhost:3000'
-const PROTOCOL = process.env.NODE_ENV == 'production' ? 'https' : 'http'
 /*
     Validation Checks
   1. If an email address is already in use
   2. If mailgun email doesn't send
   3. Check if valid email
   */
-export const registerUser = async (data: FormData) => {
+export const startUser = async (data: FormData) => {
   const mailgun = new Mailgun(formData)
   const mg = mailgun.client({
     username: 'api',
     key: API_KEY,
   })
 
-  const name = data.get('name') as string
+  const cookieStore = await cookies()
+
   const email = data.get('email') as string
 
   const emailSchema = z.string().email()
@@ -37,13 +36,11 @@ export const registerUser = async (data: FormData) => {
     return { error: 'Invalid Email' }
   }
 
-  const { success } = await registerRateLimit.limit(email)
-
-  if (!success) {
-    return {
-      error: 'Too many registration attempts, Please try again in 30 minutes',
-    }
-  }
+  cookieStore.set('email', email, {
+    maxAge: 15 * 60 * 1000, // 15 minutes,
+    secure: true,
+    httpOnly: true,
+  })
 
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -51,37 +48,45 @@ export const registerUser = async (data: FormData) => {
     },
   })
 
-  if (existingUser) {
-    return { error: 'User with this email exists already' }
-  }
-
-  const user = await prisma.user.create({
-    data: {
-      name,
-      email,
-    },
-  })
+  //checking if user exists if so use object, else create new user
+  const user = existingUser
+    ? existingUser
+    : await prisma.user.create({
+        data: {
+          name: '',
+          email,
+        },
+      })
 
   const otpToken = randomInt(100000, 999999).toString()
 
-  const token = await prisma.oTPToken.create({
-    data: {
-      token: await hash(otpToken as string, 12),
-      userId: user.id,
-      email,
-    },
-  })
+  if (existingUser) {
+    console.log('User already exists, updating OTP token', existingUser)
+    await prisma.oTPToken.update({
+      where: { email: user.email },
+      data: {
+        token: await hash(otpToken as string, 12),
+      },
+    })
+  } else {
+    await prisma.oTPToken.create({
+      data: {
+        token: await hash(otpToken as string, 12),
+        userId: user.id,
+        email: user.email,
+      },
+    })
+  }
 
   try {
     const data = await mg.messages.create(MAILGUN_DOMAIN, {
       from: `Mailgun Sandbox <postmaster@${MAILGUN_DOMAIN}>`,
       to: [user.email],
       subject: `Confirmation Code: ${otpToken}`,
-      text: `Hello ${user.name}, here is your confirmation code: ${otpToken}`,
+      text: `Here is your confirmation code: ${otpToken}`,
     })
 
     console.log('mailgun data: ', data) // logs response data
-    redirect('/login')
   } catch (error) {
     console.log(error) //logs any error
     return { error: JSON.stringify(error) }
