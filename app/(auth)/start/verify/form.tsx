@@ -42,6 +42,7 @@ export const Form = () => {
           value={code}
           onChange={(e) => setCode(e.target.value)}
           required
+          className={styles.formInput}
         />
       </div>
       <div className={styles.formButtonContainer}>
@@ -50,8 +51,8 @@ export const Form = () => {
         </button>
       </div>
       {error && (
-        <div>
-          <span>{error}</span>
+        <div className={styles.errorContainer}>
+          <span className={styles.errorMessage}>{error}</span>
         </div>
       )}
     </form>

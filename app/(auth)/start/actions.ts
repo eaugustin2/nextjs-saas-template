@@ -6,8 +6,8 @@ import { prisma } from '@/lib/prisma'
 import { randomInt } from 'crypto'
 import formData from 'form-data' // form-data v4.0.1
 import { z } from 'zod'
-import { cookies } from 'next/headers'
-//import { registerRateLimit } from '@/lib/rateLimit'
+import { cookies, headers } from 'next/headers'
+import { startRateLimit } from '@/lib/rateLimit'
 
 const API_KEY = process.env.MAILGUN_API_KEY || ''
 const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || ''
@@ -18,6 +18,16 @@ const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || ''
   3. Check if valid email
   */
 export const startUser = async (data: FormData) => {
+  const headerList = await headers()
+  const ip = headerList.get('x-forwarded-for') || ''
+  console.log('IP Address:', ip)
+
+  const { success } = await startRateLimit.limit(ip)
+
+  if (!success) {
+    return { error: 'Too many requests, please try again later.' }
+  }
+
   const mailgun = new Mailgun(formData)
   const mg = mailgun.client({
     username: 'api',

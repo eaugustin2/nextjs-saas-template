@@ -1,16 +1,13 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
-import { hash, compare } from 'bcrypt'
-import { signIn } from 'next-auth/react'
+import { compare } from 'bcrypt'
 import { cookies } from 'next/headers'
 
 export const loginUser = async (data: FormData) => {
-  const token = await hash(data.get('code') as string, 12)
+  const token = (await data.get('code')) as string
   const cookieStore = await cookies()
   const email = cookieStore.get('email')?.value
-  console.log('Token received:', token)
-  console.log('Email from cookie:', email)
 
   const verifyToken = await prisma.oTPToken.findUnique({
     where: {
@@ -25,23 +22,6 @@ export const loginUser = async (data: FormData) => {
   if (!compare(token, verifyToken?.token)) {
     return { error: 'Invalid token' }
   }
-
-  // const user = await prisma.user.findFirst({
-  //   where: {
-  //     OTPToken: {
-  //       AND: [
-  //         {
-  //           createdAt: {
-  //             gt: new Date(Date.now() - 15 * 60 * 1000), // 15 minutes ago
-  //           },
-  //         },
-  //         {
-  //           token: verifyToken?.token,
-  //         },
-  //       ],
-  //     },
-  //   },
-  // })
 
   const user = await prisma.user.findFirst({
     where: {
@@ -84,8 +64,6 @@ export const loginUser = async (data: FormData) => {
       activatedAt: new Date(),
     },
   })
-
-  console.log('User found and activated:', user)
 
   return { success: true, email }
 }

@@ -7,8 +7,7 @@ export { default } from 'next-auth/middleware'
 // }
 
 //We are whitelisting what routes not to protect here. Any route not listed below is protected
+//To whitelist another route, add it to the regex below like |folder_name
 export const config = {
-  matcher: [
-    '/((?!start|register|api|login|forgot-password|password-reset|activate).*)',
-  ],
+  matcher: ['/((?!start).*)'],
 }

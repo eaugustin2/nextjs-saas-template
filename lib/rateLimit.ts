@@ -7,21 +7,7 @@ const REDIS_TOKEN = process.env.UPSTASH_REDIS_TOKEN
 //define single Redis instance
 const redis = new Redis({ url: REDIS_URL, token: REDIS_TOKEN })
 
-//define separate rateLimiters
-export const loginRateLimit = new Ratelimit({
+export const startRateLimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(5, '15 m'),
-}) //5 logins per 15 minutes
-export const registerRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(3, '30 m'),
-}) //3 registrations per 30 minutes
-export const apiRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(100, '1 h'),
-}) // 100 api calls per hour
-
-export const forgotPasswordRateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(3, '24 h'),
-}) //3 registrations per 30 minutes
+  limiter: Ratelimit.slidingWindow(5, '30 m'),
+}) //5 codes per 30 minutes

@@ -11,7 +11,7 @@ const Verify = () => {
       <div className={styles.card}>
         <h1>We Emailed You A Code</h1>
         <div>
-          <p>Please enter your code below to continue</p>
+          <h3>Please enter your code below to continue</h3>
         </div>
         <VerifyForm />
       </div>
