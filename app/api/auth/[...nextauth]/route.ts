@@ -43,7 +43,8 @@ export const authOptions: NextAuthOptions = {
           id: user.id + '',
           email: user.email,
           name: user.name,
-          randomKey: 'Hey cool', //can replace with anything
+          subscriptionStatus: user.subscriptionStatus,
+          role: user.role,
         }
       },
     }),
@@ -56,7 +57,10 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          randomKey: token.randomKey,
+          email: token.email,
+          name: token.name,
+          subscriptionStatus: token.subscriptionStatus,
+          role: token.role,
         },
       }
     },
@@ -67,7 +71,10 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: u.id,
-          randomKey: u.randomKey,
+          email: u.email,
+          name: u.name,
+          subscriptionStatus: u.subscriptionStatus,
+          role: u.role,
         }
       }
       return token

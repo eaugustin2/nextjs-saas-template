@@ -13,14 +13,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SubscriptionStatus {
+  SUBSCRIBED
+  NOT_SUBSCRIBED
+  CANCELED
+}
+
+enum ROLE {
+  USER
+  ADMIN
+  BETA
+}
+
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  name      String
-  active    Boolean   @default(false)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  OTPToken  OTPToken?
+  id                 Int                @id @default(autoincrement())
+  email              String             @unique
+  name               String
+  active             Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime?          @updatedAt
+  OTPToken           OTPToken?
+  subscriptionStatus SubscriptionStatus @default(NOT_SUBSCRIBED)
+  role               ROLE               @default(USER)
 }
 
 model OTPToken {
