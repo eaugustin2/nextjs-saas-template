@@ -1,0 +1,83 @@
+.pricingPageContainer {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggleButtons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.duration {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-top: 1px solid #eaeaea;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardAction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.cardAction button {
+  padding: 10px 20px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pricingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.feature {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
