@@ -103,7 +103,11 @@ export const POST = async (req: NextRequest) => {
       if (user) {
         await prisma.user.update({
           where: { id: user.id },
-          data: { subscriptionStatus: 'NOT_SUBSCRIBED' },
+          data: {
+            subscriptionStatus: 'NOT_SUBSCRIBED',
+            stripePriceId: null,
+            stripeCustomerId: null,
+          },
         })
       } else {
         console.error('User not found for cancelled subscription:', customerId)
