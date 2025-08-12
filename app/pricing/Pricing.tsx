@@ -1,12 +1,28 @@
 'use client'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './pricing.module.css'
 import { CircleCheck } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 const Pricing = () => {
+  const { data: session } = useSession()
   const [isMonthly, setIsMonthly] = useState(true)
+  const [monthlyPaymentLink, setMonthlyPaymentLink] = useState('')
+  const [yearlyPaymentLink, setYearlyPaymentLink] = useState('')
+
+  // Set the payment links based on the user's email and session loading
+  useEffect(() => {
+    if (session?.user?.email) {
+      setMonthlyPaymentLink(
+        `${process.env.NEXT_PUBLIC_STRIPE_MONTHLY_PAYMENT_LINK}?prefilled_email=${session.user.email}`
+      )
+      setYearlyPaymentLink(
+        `${process.env.NEXT_PUBLIC_STRIPE_YEARLY_PAYMENT_LINK}?prefilled_email=${session.user.email}`
+      )
+    }
+  }, [session?.user?.email])
 
   const monthlyPlan = () => {
     return (
@@ -33,7 +49,9 @@ const Pricing = () => {
           </span>
         </div>
         <div className={styles.cardAction}>
-          <button className="btn btn-primary">Subscribe Now</button>
+          <a target="_blank" href={monthlyPaymentLink} rel="noreferrer">
+            <button className="btn btn-primary">Subscribe Now</button>
+          </a>
         </div>
       </div>
     )
@@ -64,7 +82,9 @@ const Pricing = () => {
           </span>
         </div>
         <div className={styles.cardAction}>
-          <button className="btn btn-primary">Subscribe Now</button>
+          <a target="_blank" href={yearlyPaymentLink} rel="noreferrer">
+            <button className="btn btn-primary">Subscribe Now</button>
+          </a>
         </div>
       </div>
     )
@@ -78,51 +98,6 @@ const Pricing = () => {
         </button>
       </div>
       {isMonthly ? monthlyPlan() : yearlyPlan()}
-      {/* <Tabs defaultValue="monthly">
-        <TabsList>
-          <TabsTrigger value="monthly">Monthly</TabsTrigger>
-          <TabsTrigger value="yearly">Yearly</TabsTrigger>
-        </TabsList>
-        <TabsContent value="monthly">
-          <Card className={styles.card}>
-            <CardHeader>
-              <CardTitle>
-                <strong>{plans[0].price}</strong>/{plans[0].period}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className={styles.cardContent}>
-              <span className={styles.feature}>
-                <CircleCheck />
-                feature 1
-              </span>
-              <span className={styles.feature}>
-                <CircleCheck />
-                feature 2
-              </span>
-              <span className={styles.feature}>
-                <CircleCheck />
-                feature 3
-              </span>
-              <span className={styles.feature}>
-                <CircleCheck />
-                feature 4
-              </span>
-            </CardContent>
-            <CardAction className={styles.cardAction}>
-              <button className="btn btn-primary">Subscribe Now</button>
-            </CardAction>
-          </Card>
-        </TabsContent>
-        <TabsContent value="yearly">
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {plans[1].price}/{plans[1].period}
-              </CardTitle>
-            </CardHeader>
-          </Card>
-        </TabsContent>
-      </Tabs> */}
     </div>
   )
 }
