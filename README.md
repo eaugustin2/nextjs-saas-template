@@ -60,14 +60,16 @@ npx prisma db seed
 
 ## Environment Variables
 
-| Name                | Description                                                                                              |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| DATABASE_URL        | Postgres connection string example "postgresql://username:password@localhost:port/postgres?schema=schema |
-| NEXTAUTH_SECRET     | JWT Hash                                                                                                 |
-| MAILGUN_API_KEY     | API Key for mailgun                                                                                      |
-| MAILGUN_DOMAIN      | Domain used for mailgun API                                                                              |
-| UPSTASH_REDIS_URL   | URL used to access REDIS DB                                                                              |
-| UPSTASH_REDIS_TOKEN | Token used to access REDIS DB                                                                            |
+| Name                                    | Description                                                                                              |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| DATABASE_URL                            | Postgres connection string example "postgresql://username:password@localhost:port/postgres?schema=schema |
+| NEXTAUTH_SECRET                         | JWT Hash                                                                                                 |
+| MAILGUN_API_KEY                         | API Key for mailgun                                                                                      |
+| MAILGUN_DOMAIN                          | Domain used for mailgun API                                                                              |
+| UPSTASH_REDIS_URL                       | URL used to access REDIS DB                                                                              |
+| UPSTASH_REDIS_TOKEN                     | Token used to access REDIS DB                                                                            |
+| NEXT_PUBLIC_STRIPE_MONTHLY_PAYMENT_LINK | Link used to send customer to stripe payment DB                                                          |
+| NEXT_PUBLIC_STRIPE_YEARLY_PAYMENT_LINK  | Link used to send customer to stripe payment DB                                                          |
 
 ## Deploy on Vercel
 
