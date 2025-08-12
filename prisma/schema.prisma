@@ -34,6 +34,8 @@ model User {
   updatedAt          DateTime?          @updatedAt
   OTPToken           OTPToken?
   subscriptionStatus SubscriptionStatus @default(NOT_SUBSCRIBED)
+  stripePriceId      String?
+  stripeCustomerId   String?            @unique
   role               ROLE               @default(USER)
 }
 
