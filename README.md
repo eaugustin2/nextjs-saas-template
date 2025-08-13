@@ -68,8 +68,13 @@ npx prisma db seed
 | MAILGUN_DOMAIN                          | Domain used for mailgun API                                                                              |
 | UPSTASH_REDIS_URL                       | URL used to access REDIS DB                                                                              |
 | UPSTASH_REDIS_TOKEN                     | Token used to access REDIS DB                                                                            |
-| NEXT_PUBLIC_STRIPE_MONTHLY_PAYMENT_LINK | Link used to send customer to stripe payment DB                                                          |
-| NEXT_PUBLIC_STRIPE_YEARLY_PAYMENT_LINK  | Link used to send customer to stripe payment DB                                                          |
+| NEXT_PUBLIC_STRIPE_MONTHLY_PAYMENT_LINK | Link used to send customer to stripe payment                                                             |
+| NEXT_PUBLIC_STRIPE_YEARLY_PAYMENT_LINK  | Link used to send customer to stripe payment                                                             |
+| NEXT_PUBLIC_STRIPE_MONTHLY_PRICE_ID     | Price Id to identify monthly plan                                                                        |
+| NEXT_PUBLIC_STRIPE_YEARLY_PRICE_ID      | Price Id to identify monthly plan                                                                        |
+| NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL  | Stripe customer portal link                                                                              |
+| STRIPE_SECRET_KEY                       | Stripe secret key for webhook config                                                                     |
+| STRIPE_WEBHOOK_SECRET                   | Stripe webhook secret key for webhook config                                                             |
 
 ## Deploy on Vercel
 
