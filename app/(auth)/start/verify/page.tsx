@@ -9,9 +9,12 @@ const Verify = () => {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h1>We Emailed You A Code</h1>
+        {/* Leave space for a logo */}
+        <h1 className="header">We Emailed You A Code</h1>
         <div>
-          <h3>Please enter your code below to continue</h3>
+          <span className={styles.subtitle}>
+            Please enter your code below to continue
+          </span>
         </div>
         <VerifyForm />
       </div>

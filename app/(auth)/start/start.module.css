@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 15vh;
+  height: 75vh;
   margin-left: 30vw;
   margin-right: 30vw;
 }
@@ -63,6 +63,11 @@
 
 .formButton:hover {
   background-color: #513dd9;
+}
+
+.formButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .errorContainer {

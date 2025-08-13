@@ -38,14 +38,6 @@ export const startUser = async (data: FormData) => {
 
   const email = data.get('email') as string
 
-  const emailSchema = z.string().email()
-
-  const validEmail = emailSchema.safeParse(email)
-
-  if (!validEmail.success) {
-    return { error: 'Invalid Email' }
-  }
-
   cookieStore.set('email', email, {
     maxAge: 15 * 60 * 1000, // 15 minutes,
     secure: true,
