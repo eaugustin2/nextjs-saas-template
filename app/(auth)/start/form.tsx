@@ -7,6 +7,8 @@ import { redirect } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
 import { z } from 'zod'
+import GoogleButton from '@/components/auth/Google/GoogleButton'
+import { Separator } from '@/components/ui/separator'
 
 export const Form = () => {
   const [email, setEmail] = useState('')
@@ -36,6 +38,14 @@ export const Form = () => {
   }
   return (
     <form action={handleSubmission} className={styles.form}>
+      <GoogleButton />
+      {/* <div className={styles.dividerContainer}>
+        <span className={styles.divider}>Or continue with</span>
+      </div> */}
+      <Separator className={styles.separator}>
+        <span className={styles.divider}>Or Continue With Email</span>
+      </Separator>
+
       <div className={styles.formInputContainer}>
         <input
           name="email"
