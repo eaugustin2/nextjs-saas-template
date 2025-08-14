@@ -77,6 +77,8 @@ npx prisma db seed
 | STRIPE_WEBHOOK_SECRET                   | Stripe webhook secret key for webhook config                                                             |
 | GOOGLE_CLIENT_ID                        | Client ID used for Google Provider                                                                       |
 | GOOGLE_CLIENT_SECRET                    | Secret ID used for Google Provider                                                                       |
+| NEXT_PUBLIC_POSTHOG_KEY                 | PostHog Key Provider                                                                                     |
+| NEXT_PUBLIC_POSTHOG_HOST                | PostHog Host Provider                                                                                    |
 
 ## Deploy on Vercel
 
