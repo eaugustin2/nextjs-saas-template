@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Theme } from '@radix-ui/themes'
-import { Providers } from './providers'
+import { Providers } from './config/next-auth-provider/providers'
 import NavBar from '@/components/layouts/NavBar/NavBar'
-import { useSession } from 'next-auth/react'
+import { PostHogProvider } from './config/postHog-provider/providers'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,8 +32,10 @@ export default function RootLayout({
       >
         <Theme>
           <Providers>
-            <NavBar />
-            {children}
+            <PostHogProvider>
+              <NavBar />
+              {children}
+            </PostHogProvider>
           </Providers>
         </Theme>
       </body>

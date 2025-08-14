@@ -13,7 +13,7 @@ const GoogleButton = () => {
         onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
       >
         <Icon />
-        Sign Up with Google
+        Continue with Google
       </Button>
     </div>
   )
