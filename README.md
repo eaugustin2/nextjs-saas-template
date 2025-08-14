@@ -75,6 +75,8 @@ npx prisma db seed
 | NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL_URL  | Stripe customer portal link                                                                              |
 | STRIPE_SECRET_KEY                       | Stripe secret key for webhook config                                                                     |
 | STRIPE_WEBHOOK_SECRET                   | Stripe webhook secret key for webhook config                                                             |
+| GOOGLE_CLIENT_ID                        | Client ID used for Google Provider                                                                       |
+| GOOGLE_CLIENT_SECRET                    | Secret ID used for Google Provider                                                                       |
 
 ## Deploy on Vercel
 
