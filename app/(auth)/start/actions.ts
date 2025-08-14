@@ -5,7 +5,6 @@ import { hash } from 'bcrypt'
 import { prisma } from '@/lib/prisma'
 import { randomInt } from 'crypto'
 import formData from 'form-data' // form-data v4.0.1
-import { z } from 'zod'
 import { cookies, headers } from 'next/headers'
 import { startRateLimit } from '@/lib/rateLimit'
 
@@ -86,6 +85,40 @@ export const startUser = async (data: FormData) => {
       to: [user.email],
       subject: `Confirmation Code: ${otpToken}`,
       text: `Here is your confirmation code: ${otpToken}`,
+      html: `<div
+      style={{
+        backgroundColor: '#efefef',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: '#ffffff',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <h1>Verification Code</h1>
+        <p>Please use the following code to verify your email address:</p>
+        <h2
+          style={{
+            fontSize: '24px',
+            fontWeight: 'bold',
+            letterSpacing: '4px',
+            margin: '20px 0',
+          }}
+        >
+          ${otpToken}
+        </h2>
+        <p>This code will expire in 15 minutes.</p>
+        <p>If you did not request this code, please ignore this email.</p>
+        <p>Thank you!</p>
+      </div>
+    </div>`,
     })
 
     console.log('mailgun data: ', data) // logs response data
