@@ -2,7 +2,6 @@
 
 import {
   NavigationMenu,
-  NavigationMenuItem,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
 import { NavigationMenuLink } from '@radix-ui/react-navigation-menu'
