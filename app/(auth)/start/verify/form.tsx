@@ -13,12 +13,14 @@ import {
 } from '@/components/ui/input-otp'
 import { Button } from '@/components/ui/button'
 import { REGEXP_ONLY_DIGITS } from 'input-otp'
+import { usePostHog } from 'posthog-js/react'
 
 export const Form = () => {
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
   const inputOTP = useRef<HTMLInputElement>(null)
+  const posthog = usePostHog()
 
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
@@ -48,12 +50,16 @@ export const Form = () => {
   })
 
   const handleOTP = async (data: FormData) => {
+    posthog.capture('clicked_verify_otp')
     const resp = await loginUser(data)
 
     if (resp?.error) {
       setError(resp.error)
       return
     } else {
+      posthog.capture('verified_otp', {
+        email: resp.email,
+      })
       const res = await signIn('credentials', {
         redirect: false,
         email: resp.email,

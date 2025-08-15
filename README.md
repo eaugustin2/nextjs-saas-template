@@ -58,6 +58,10 @@ To manually seed database run command:
 npx prisma db seed
 ```
 
+## PostHog
+
+Capture any custom events using usePostHog hook
+
 ## Environment Variables
 
 | Name                                    | Description                                                                                              |

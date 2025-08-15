@@ -9,6 +9,7 @@ import { Loader } from 'lucide-react'
 import { z } from 'zod'
 import GoogleButton from '@/components/auth/Google/GoogleButton'
 import { Separator } from '@/components/ui/separator'
+import { usePostHog } from 'posthog-js/react'
 
 export const Form = () => {
   const [email, setEmail] = useState('')
@@ -21,7 +22,12 @@ export const Form = () => {
 
   let disabled = !validEmail.success || loading
 
+  const posthog = usePostHog()
+
   const handleSubmission = async (data: FormData) => {
+    posthog.capture('clicked_start_email', {
+      email: data.get('email'),
+    })
     setLoading(true)
     const resp = await startUser(data)
 
