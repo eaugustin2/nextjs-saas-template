@@ -1,0 +1,48 @@
+.navList {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  align-items: center;
+}
+
+.navList a {
+  text-decoration: none;
+  color: black;
+}
+
+.trigger {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdownList {
+  display: flex;
+  justify-content: end;
+}
+
+.dropdownItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+.ul {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.li {
+  list-style: none;
+}
+
+.li a {
+  text-decoration: none;
+  color: black;
+}
