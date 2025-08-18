@@ -10,8 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { signOut, useSession } from 'next-auth/react'
 import { usePostHog } from 'posthog-js/react'
-import { CreditCard, CreditCardIcon, LogOut } from 'lucide-react'
-import SignOutButton from '@/components/auth/SignOut/SignOutButton'
+import { CreditCardIcon, LogOut } from 'lucide-react'
 import styles from './navbar.module.css'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
@@ -64,6 +63,7 @@ const NavBar = () => {
                   href={customerPortalUrl}
                   target="_blank"
                   className="flex w-full flex-row items-center gap-1.5"
+                  onClick={() => posthog.capture('clicked_billing')}
                 >
                   {' '}
                   <CreditCardIcon /> Billing
