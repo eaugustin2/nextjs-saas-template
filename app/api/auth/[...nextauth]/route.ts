@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma'
+import { User } from '@prisma/client'
 import { compare } from 'bcrypt'
 import NextAuth, { type NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -55,6 +56,41 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    signIn: async ({ user, account }) => {
+      if (account?.provider === 'google') {
+        const email = user?.email || ''
+        const name = user?.name || ''
+
+        const isUser = (await prisma.user.findUnique({
+          where: {
+            email,
+          },
+        })) as any
+
+        if (isUser) {
+          //update meta data
+          await prisma.user.update({
+            where: {
+              email,
+            },
+            data: {
+              name,
+            },
+          })
+        } else {
+          //create new user
+          await prisma.user.create({
+            data: {
+              name,
+              email,
+              active: true,
+            },
+          })
+        }
+      }
+
+      return true
+    },
     session: ({ session, token }) => {
       console.log('Session Callback', { session, token })
       return {
