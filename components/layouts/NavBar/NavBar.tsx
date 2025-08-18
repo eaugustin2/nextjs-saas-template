@@ -5,17 +5,23 @@ import {
   NavigationMenuContent,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from '@/components/ui/navigation-menu'
-import {
   NavigationMenuItem,
   NavigationMenuLink,
-} from '@radix-ui/react-navigation-menu'
+} from '@/components/ui/navigation-menu'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { useSession } from 'next-auth/react'
 import { usePostHog } from 'posthog-js/react'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { CreditCard } from 'lucide-react'
 import SignOutButton from '@/components/auth/SignOut/SignOutButton'
 import styles from './navbar.module.css'
+import { Button } from '@/components/ui/button'
 
 const NavBar = () => {
   const { data: session } = useSession()
@@ -31,11 +37,12 @@ const NavBar = () => {
           <NavigationMenuList className={styles.navList}>
             <NavigationMenuLink href="/">Logo</NavigationMenuLink>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className={styles.trigger}>
+              {/* <NavigationMenuTrigger className={styles.trigger}>
                 {name ? name : 'User'}
-              </NavigationMenuTrigger>
-              <NavigationMenuContent className={styles.dropdownList}>
-                {/**Place drop downs in here */}
+              </NavigationMenuTrigger> */}
+
+              {/* <NavigationMenuContent className={styles.dropdownList}>
+                
                 <ul className={styles.ul}>
                   <li className={styles.li}>
                     <NavigationMenuLink
@@ -48,13 +55,27 @@ const NavBar = () => {
                       Billing
                     </NavigationMenuLink>
                   </li>
+                 
                   <li className={styles.li}>
                     <NavigationMenuLink>
                       <SignOutButton />
                     </NavigationMenuLink>
                   </li>
                 </ul>
-              </NavigationMenuContent>
+              </NavigationMenuContent> */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline">{name ? name : 'User'}</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>{session.user?.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Billing</DropdownMenuItem>
+                  <DropdownMenuItem>Team</DropdownMenuItem>
+                  <DropdownMenuItem>Subscription</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
