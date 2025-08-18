@@ -6,7 +6,7 @@ const Start = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         {/* Leave space for a logo */}
-        <h1 className="header">Enter Email To Continue</h1>
+        <h1 className="text-3xl font-bold">Enter Email To Continue</h1>
         <StartForm />
       </div>
     </div>

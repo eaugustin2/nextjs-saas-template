@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { usePostHog } from 'posthog-js/react'
 import { CreditCard, CreditCardIcon, LogOut } from 'lucide-react'
 import SignOutButton from '@/components/auth/SignOut/SignOutButton'
@@ -71,7 +71,10 @@ const NavBar = () => {
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="w-full cursor-pointer">
+              <DropdownMenuItem
+                className="w-full cursor-pointer"
+                onClick={() => signOut()}
+              >
                 {/* <SignOutButton /> */}
                 <LogOut />
                 Logout

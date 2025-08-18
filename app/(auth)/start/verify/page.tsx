@@ -10,7 +10,7 @@ const Verify = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         {/* Leave space for a logo */}
-        <h1 className="header">We Emailed You A Code</h1>
+        <h1 className="text-3xl font-bold">We Emailed You A Code</h1>
         <div>
           <span className={styles.subtitle}>
             Please enter your code below to continue
