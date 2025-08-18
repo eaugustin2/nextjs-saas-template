@@ -4,6 +4,7 @@ import { Theme } from '@radix-ui/themes'
 import { Providers } from './config/next-auth-provider/providers'
 import NavBar from '@/components/layouts/NavBar/NavBar'
 import { PostHogProvider } from './config/postHog-provider/providers'
+import './globals.css'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

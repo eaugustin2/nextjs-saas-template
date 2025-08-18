@@ -1,14 +1,6 @@
 'use client'
 
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuItem,
-  NavigationMenuLink,
-} from '@/components/ui/navigation-menu'
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -18,10 +10,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useSession } from 'next-auth/react'
 import { usePostHog } from 'posthog-js/react'
-import { CreditCard } from 'lucide-react'
+import { CreditCard, CreditCardIcon, LogOut } from 'lucide-react'
 import SignOutButton from '@/components/auth/SignOut/SignOutButton'
 import styles from './navbar.module.css'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 const NavBar = () => {
   const { data: session } = useSession()
@@ -33,52 +26,59 @@ const NavBar = () => {
   return (
     <>
       {session && (
-        <NavigationMenu>
-          <NavigationMenuList className={styles.navList}>
-            <NavigationMenuLink href="/">Logo</NavigationMenuLink>
-            <NavigationMenuItem>
-              {/* <NavigationMenuTrigger className={styles.trigger}>
-                {name ? name : 'User'}
-              </NavigationMenuTrigger> */}
+        // <NavigationMenu className="max-w-full justify-between">
+        //   <NavigationMenuList className="max-w-full">
+        //     <NavigationMenuLink href="/">Logo</NavigationMenuLink>
+        //     <NavigationMenuItem>
 
-              {/* <NavigationMenuContent className={styles.dropdownList}>
-                
-                <ul className={styles.ul}>
-                  <li className={styles.li}>
-                    <NavigationMenuLink
-                      href={customerPortalUrl}
-                      target="_blank"
-                      onClick={() => posthog.capture('clicked_billing')}
-                      className={styles.dropdownItem}
-                    >
-                      <CreditCard />
-                      Billing
-                    </NavigationMenuLink>
-                  </li>
-                 
-                  <li className={styles.li}>
-                    <NavigationMenuLink>
-                      <SignOutButton />
-                    </NavigationMenuLink>
-                  </li>
-                </ul>
-              </NavigationMenuContent> */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline">{name ? name : 'User'}</Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>{session.user?.email}</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Billing</DropdownMenuItem>
-                  <DropdownMenuItem>Team</DropdownMenuItem>
-                  <DropdownMenuItem>Subscription</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+        //       <DropdownMenu>
+        //         <DropdownMenuTrigger asChild>
+        //           <Button variant="outline">{name ? name : 'User'}</Button>
+        //         </DropdownMenuTrigger>
+        //         <DropdownMenuContent>
+        //           <DropdownMenuLabel>{session.user?.email}</DropdownMenuLabel>
+        //           <DropdownMenuSeparator />
+        //           <DropdownMenuItem>Profile</DropdownMenuItem>
+        //           <DropdownMenuItem>Billing</DropdownMenuItem>
+        //           <DropdownMenuItem>Team</DropdownMenuItem>
+        //           <DropdownMenuItem>Subscription</DropdownMenuItem>
+        //         </DropdownMenuContent>
+        //       </DropdownMenu>
+        //     </NavigationMenuItem>
+        //   </NavigationMenuList>
+        // </NavigationMenu>
+        <nav className={styles.nav}>
+          <div>Logo</div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="cursor-pointer">
+                {name ? name : 'User'}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>{session.user?.email}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem className="w-full cursor-pointer">
+                <Link
+                  href={customerPortalUrl}
+                  target="_blank"
+                  className="flex w-full flex-row items-center gap-1.5"
+                >
+                  {' '}
+                  <CreditCardIcon /> Billing
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="w-full cursor-pointer">
+                {/* <SignOutButton /> */}
+                <LogOut />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </nav>
       )}
     </>
   )
