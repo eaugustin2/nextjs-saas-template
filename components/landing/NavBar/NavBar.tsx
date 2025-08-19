@@ -9,27 +9,29 @@ const NavBar = () => {
     { href: '#faq', title: 'FAQs' },
   ]
   return (
-    <nav className="m-4 flex flex-row items-center justify-between">
-      <div>
-        <Link href="/">Logo</Link>
-      </div>
-      <div>
-        <ul className="flex flex-row">
-          {navItems.map((item) => (
-            <li key={item.title}>
-              <CTAButton href={item.href} variant="link">
-                {item.title}
-              </CTAButton>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <CTAButton href="/start" variant="outline" size="lg">
-          Get Started
-        </CTAButton>
-      </div>
-    </nav>
+    <header>
+      <nav className="m-4 flex flex-row items-center justify-between">
+        <div>
+          <Link href="/">Logo</Link>
+        </div>
+        <div>
+          <ul className="flex flex-row">
+            {navItems.map((item) => (
+              <li key={item.title}>
+                <CTAButton href={item.href} variant="link">
+                  {item.title}
+                </CTAButton>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <CTAButton href="/start" variant="outline" size="lg">
+            Get Started
+          </CTAButton>
+        </div>
+      </nav>
+    </header>
   )
 }
 
