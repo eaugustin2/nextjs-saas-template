@@ -9,8 +9,8 @@ const NavBar = () => {
     { href: '#faq', title: 'FAQs' },
   ]
   return (
-    <header>
-      <nav className="m-4 flex flex-row items-center justify-between">
+    <header className="sticky top-0 z-50 border-b backdrop-blur">
+      <nav className="my-4 flex flex-row items-center justify-between">
         <div>
           <Link href="/">Logo</Link>
         </div>

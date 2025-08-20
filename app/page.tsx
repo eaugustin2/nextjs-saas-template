@@ -1,17 +1,17 @@
-import CTAButton from '@/components/landing/CTAButton/CTAButton'
 import Hero from '@/components/landing/Hero/Hero'
 import NavBar from '@/components/landing/NavBar/NavBar'
-import Link from 'next/link'
+import Features from '@/components/landing/Features/Features'
 
 const Home = async () => {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="mx-8 flex min-h-screen flex-col">
       {/**Nav Bar (Logo, Demo, Features, Pricing, FAQs, Login/Get Started button) */}
       <NavBar />
       {/**Hero section split into two halves. Left half with Header, subtitle and CTA buttons (Get Started, Demo) Other half is picture/video of product */}
       <Hero />
       {/**Social Proof? */}
       {/**Features/benefits */}
+      <Features />
       {/**FAQs */}
       {/**Plans */}
       {/**Footer (links to docs, social media, etc...) */}
