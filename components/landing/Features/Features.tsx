@@ -1,3 +1,5 @@
+import CTAButton from '../CTAButton/CTAButton'
+
 const Features = () => {
   return (
     <section className="mt-4 flex w-full flex-col">
@@ -7,11 +9,6 @@ const Features = () => {
           <p className="mt-2 text-gray-500">
             Everything you need to onboard clients faster.
           </p>
-          <ul className="m-4">
-            <li>Item 1</li>
-            <li>Item 2</li>
-            <li>Item 3</li>
-          </ul>
         </div>
         <div className="flex w-2/4 items-center justify-center">Media 1</div>
       </div>
@@ -22,6 +19,9 @@ const Features = () => {
           <p className="mt-2 text-gray-500">
             Everything you need to onboard clients faster.
           </p>
+          <CTAButton href="/start" variant="default" size="lg">
+            Get Started
+          </CTAButton>
         </div>
       </div>
     </section>
