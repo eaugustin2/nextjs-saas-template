@@ -2,6 +2,7 @@ import Hero from '@/components/landing/Hero/Hero'
 import NavBar from '@/components/landing/NavBar/NavBar'
 import Features from '@/components/landing/Features/Features'
 import PricingPlans from '@/components/landing/Plans/PricingPlans'
+import Footer from '@/components/landing/Footer/Footer'
 
 const Home = async () => {
   return (
@@ -17,6 +18,7 @@ const Home = async () => {
       {/**Plans */}
       <PricingPlans />
       {/**Footer (links to docs, social media, etc...) */}
+      <Footer />
     </main>
   )
 }
