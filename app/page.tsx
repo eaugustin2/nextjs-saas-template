@@ -3,6 +3,7 @@ import NavBar from '@/components/landing/NavBar/NavBar'
 import Features from '@/components/landing/Features/Features'
 import PricingPlans from '@/components/landing/Plans/PricingPlans'
 import Footer from '@/components/landing/Footer/Footer'
+import FAQs from '@/components/landing/FAQs/FAQs'
 
 const Home = async () => {
   return (
@@ -15,6 +16,7 @@ const Home = async () => {
       {/**Features/benefits */}
       <Features />
       {/**FAQs */}
+      <FAQs />
       {/**Plans */}
       <PricingPlans />
       {/**Footer (links to docs, social media, etc...) */}
