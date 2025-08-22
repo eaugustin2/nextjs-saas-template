@@ -8,19 +8,7 @@ import FAQs from '@/components/landing/FAQs/FAQs'
 const Home = async () => {
   return (
     <main className="mx-8 flex min-h-screen flex-col">
-      {/**Nav Bar (Logo, Demo, Features, Pricing, FAQs, Login/Get Started button) */}
-      <NavBar />
-      {/**Hero section split into two halves. Left half with Header, subtitle and CTA buttons (Get Started, Demo) Other half is picture/video of product */}
-      <Hero />
-      {/**Social Proof? */}
-      {/**Features/benefits */}
-      <Features />
-      {/**FAQs */}
-      <FAQs />
-      {/**Plans */}
-      <PricingPlans />
-      {/**Footer (links to docs, social media, etc...) */}
-      <Footer />
+      {/**Components to use are in components/landing */}
     </main>
   )
 }
