@@ -1,6 +1,7 @@
 import Hero from '@/components/landing/Hero/Hero'
 import NavBar from '@/components/landing/NavBar/NavBar'
 import Features from '@/components/landing/Features/Features'
+import PricingPlans from '@/components/landing/Plans/PricingPlans'
 
 const Home = async () => {
   return (
@@ -14,6 +15,7 @@ const Home = async () => {
       <Features />
       {/**FAQs */}
       {/**Plans */}
+      <PricingPlans />
       {/**Footer (links to docs, social media, etc...) */}
     </main>
   )
