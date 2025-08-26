@@ -105,17 +105,25 @@ export const authOptions: NextAuthOptions = {
         },
       }
     },
-    jwt: ({ token, user }) => {
+    jwt: async ({ token, user }) => {
       console.log('JWT Callback', { token, user })
+      const dbUser = await prisma.user.findUnique({
+        where: {
+          email: token.email || '',
+        },
+      })
+
       if (user) {
-        const u = user as unknown as any //TODO: Should be prisma User
-        return {
-          ...token,
-          id: u.id,
-          email: u.email,
-          name: u.name,
-          subscriptionStatus: u.subscriptionStatus,
-          role: u.role,
+        //const u = user as unknown as any // TODO: Should be prisma User
+        token.id = dbUser?.id
+        token.email = dbUser?.email
+        token.name = dbUser?.name
+        token.subscriptionStatus = dbUser?.subscriptionStatus
+        token.role = dbUser?.role
+      } else {
+        if (dbUser) {
+          token.subscriptionStatus = dbUser.subscriptionStatus
+          token.role = dbUser.role
         }
       }
       return token
