@@ -1,6 +1,4 @@
 import { prisma } from '@/lib/prisma'
-import { User } from '@prisma/client'
-import { compare } from 'bcrypt'
 import NextAuth, { type NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
@@ -42,7 +40,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: user.id + '',
+          id: user.id,
           email: user.email,
           name: user.name,
           subscriptionStatus: user.subscriptionStatus,
@@ -53,42 +51,37 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    }),
-  ],
-  callbacks: {
-    signIn: async ({ user, account }) => {
-      if (account?.provider === 'google') {
-        const email = user?.email || ''
-        const name = user?.name || ''
-
-        const isUser = (await prisma.user.findUnique({
+      async profile(profile) {
+        let dbUser = await prisma.user.findUnique({
           where: {
-            email,
+            email: profile.email,
           },
-        })) as any
+        })
 
-        if (isUser) {
-          //update meta data
-          await prisma.user.update({
-            where: {
-              email,
-            },
+        if (!dbUser) {
+          dbUser = await prisma.user.create({
             data: {
-              name,
-            },
-          })
-        } else {
-          //create new user
-          await prisma.user.create({
-            data: {
-              name,
-              email,
+              name: profile.name,
+              email: profile.email,
               active: true,
             },
           })
         }
-      }
 
+        //Overriding defaults of what Google Prodivder sends for custom fields
+        return {
+          id: dbUser?.id,
+          name: dbUser?.name,
+          email: dbUser?.email,
+          role: dbUser?.role,
+          subscriptionStatus: dbUser?.subscriptionStatus,
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    signIn: async ({ user, account }) => {
+      //can approve/deny who can access app in here
       return true
     },
     session: ({ session, token }) => {
@@ -100,6 +93,7 @@ export const authOptions: NextAuthOptions = {
           id: token.id,
           email: token.email,
           name: token.name,
+          //extra params
           subscriptionStatus: token.subscriptionStatus,
           role: token.role,
         },
@@ -107,25 +101,23 @@ export const authOptions: NextAuthOptions = {
     },
     jwt: async ({ token, user }) => {
       console.log('JWT Callback', { token, user })
+
       const dbUser = await prisma.user.findUnique({
         where: {
           email: token.email || '',
         },
       })
 
+      console.log('dbUser: ', dbUser)
+
       if (user) {
-        //const u = user as unknown as any // TODO: Should be prisma User
-        token.id = dbUser?.id
-        token.email = dbUser?.email
-        token.name = dbUser?.name
-        token.subscriptionStatus = dbUser?.subscriptionStatus
-        token.role = dbUser?.role
-      } else {
-        if (dbUser) {
-          token.subscriptionStatus = dbUser.subscriptionStatus
-          token.role = dbUser.role
-        }
+        token.id = Number(user.id)
+        token.email = user.email
+        token.name = user.name
+        token.subscriptionStatus = user.subscriptionStatus!
+        token.role = user.role
       }
+      console.log('token to be returned: ', token)
       return token
     },
   },
