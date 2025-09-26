@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
 import { z } from 'zod'
 import GoogleButton from '@/components/auth/Google/GoogleButton'
-import { Separator } from '@/components/ui/separator'
 import { usePostHog } from 'posthog-js/react'
 
 export const Form = () => {
