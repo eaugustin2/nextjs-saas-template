@@ -16,6 +16,7 @@ interface CTAButtonInterface {
     | undefined
   children: string
   size?: 'default' | 'sm' | 'lg' | 'icon' | null | undefined
+  classes?: string
 }
 
 const CTAButton = ({
@@ -23,9 +24,10 @@ const CTAButton = ({
   variant,
   children,
   size = 'default',
+  classes,
 }: CTAButtonInterface) => {
   return (
-    <Button asChild variant={variant} size={size}>
+    <Button className={`${classes}`} asChild variant={variant} size={size}>
       <Link href={href}>{children}</Link>
     </Button>
   )
