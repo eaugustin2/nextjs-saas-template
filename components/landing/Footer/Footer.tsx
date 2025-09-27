@@ -3,6 +3,7 @@ import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 
 const Footer = () => {
+  const companyName: string = 'CompanyName.'
   return (
     <section className="mt-20 mb-12 flex w-full flex-col">
       <Separator />
@@ -17,7 +18,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="mt-4 flex items-center justify-center text-center">
-        <span>© 2024 MailOrganizer. All rights reserved.</span>
+        <span>© 2025 {companyName} All rights reserved.</span>
       </div>
     </section>
   )

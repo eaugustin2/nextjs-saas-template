@@ -40,5 +40,5 @@ export default withAuth(
 //To whitelist another route, add it to the regex below like |folder_name
 export const config = {
   // matcher: ['/((?!|start|stripe/webhook).*)'],
-  matcher: ['/((?!$|start|stripe/webhook).*)'],
+  matcher: ['/((?!$|start|stripe/webhook|privacy).*)'],
 }
