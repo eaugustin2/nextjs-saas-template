@@ -1,41 +1,34 @@
 'use server'
 
-import Mailgun from 'mailgun.js'
 import { hash } from 'bcrypt'
 import { prisma } from '@/lib/prisma'
 import { randomInt } from 'crypto'
-import formData from 'form-data' // form-data v4.0.1
 import { cookies, headers } from 'next/headers'
 import { startRateLimit } from '@/lib/rateLimit'
+import { Resend } from 'resend'
+import MagicLink from '@/components/email/MagicLink/MagicLink'
 
-const API_KEY = process.env.MAILGUN_API_KEY || ''
-const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || ''
+const resend = new Resend(process.env.RESEND_API_KEY || '')
 /*
     Validation Checks
   1. If an email address is already in use
   2. If mailgun email doesn't send
   3. Check if valid email
   */
-export const startUser = async (data: FormData) => {
+export const startUser = async (formData: FormData) => {
   const headerList = await headers()
   const ip = headerList.get('x-forwarded-for') || ''
   console.log('IP Address:', ip)
 
-  const { success } = await startRateLimit.limit(ip)
+  // const { success } = await startRateLimit.limit(ip)
 
-  if (!success) {
-    return { error: 'Too many requests, please try again later.' }
-  }
-
-  const mailgun = new Mailgun(formData)
-  const mg = mailgun.client({
-    username: 'api',
-    key: API_KEY,
-  })
+  // if (!success) {
+  //   return { error: 'Too many requests, please try again later.' }
+  // }
 
   const cookieStore = await cookies()
 
-  const email = data.get('email') as string
+  const email = formData.get('email') as string
 
   cookieStore.set('email', email, {
     maxAge: 15 * 60 * 1000, // 15 minutes,
@@ -63,12 +56,26 @@ export const startUser = async (data: FormData) => {
 
   if (existingUser) {
     console.log('User already exists, updating OTP token', existingUser)
-    await prisma.oTPToken.update({
+    const dbToken = await prisma.oTPToken.findUnique({
       where: { email: user.email },
-      data: {
-        token: await hash(otpToken as string, 12),
-      },
     })
+
+    if (!dbToken) {
+      await prisma.oTPToken.create({
+        data: {
+          token: await hash(otpToken as string, 12),
+          userId: user.id,
+          email: user.email,
+        },
+      })
+    } else {
+      await prisma.oTPToken.update({
+        where: { email: user.email },
+        data: {
+          token: await hash(otpToken as string, 12),
+        },
+      })
+    }
   } else {
     await prisma.oTPToken.create({
       data: {
@@ -79,51 +86,20 @@ export const startUser = async (data: FormData) => {
     })
   }
 
-  try {
-    const data = await mg.messages.create(MAILGUN_DOMAIN, {
-      from: `Mailgun Sandbox <postmaster@${MAILGUN_DOMAIN}>`,
-      to: [user.email],
-      subject: `Confirmation Code: ${otpToken}`,
-      text: `Here is your confirmation code: ${otpToken}`,
-      html: `<div
-      style={{
-        backgroundColor: '#efefef',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: '#ffffff',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
-        <h1>Verification Code</h1>
-        <p>Please use the following code to verify your email address:</p>
-        <h2
-          style={{
-            fontSize: '24px',
-            fontWeight: 'bold',
-            letterSpacing: '4px',
-            margin: '20px 0',
-          }}
-        >
-          ${otpToken}
-        </h2>
-        <p>This code will expire in 15 minutes.</p>
-        <p>If you did not request this code, please ignore this email.</p>
-        <p>Thank you!</p>
-      </div>
-    </div>`,
-    })
+  console.log('sending email...')
 
-    console.log('mailgun data: ', data) // logs response data
-  } catch (error) {
-    console.log(error) //logs any error
-    return { error: JSON.stringify(error) }
+  const { data, error } = await resend.emails.send({
+    from: 'eliseeaugustin@gmail.com',
+    to: user.email,
+    subject: `Confirmation Code: ${otpToken}`,
+    react: MagicLink({ token: otpToken }),
+  })
+
+  if (error) {
+    return { error: JSON.stringify(error.message) }
   }
+
+  console.log('resend data: ', data) // logs response data
+
+  return { success: true }
 }

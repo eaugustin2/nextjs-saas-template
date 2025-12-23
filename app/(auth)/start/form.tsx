@@ -23,12 +23,14 @@ export const Form = () => {
 
   const posthog = usePostHog()
 
-  const handleSubmission = async (data: FormData) => {
-    posthog.capture('clicked_start_email', {
-      email: data.get('email'),
-    })
+  const handleSubmission = async (formData: FormData) => {
     setLoading(true)
-    const resp = await startUser(data)
+    posthog.capture('clicked_start_email', {
+      email: formData.get('email'),
+    })
+    console.log('submitting...', formData)
+
+    const resp = await startUser(formData)
 
     if (resp?.error) {
       setError(resp.error)
