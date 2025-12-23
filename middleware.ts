@@ -1,11 +1,14 @@
 import withAuth from 'next-auth/middleware'
-import { redirect } from 'next/navigation'
 import { NextResponse } from 'next/server'
 
 export { withAuth } from 'next-auth/middleware'
 
 export default withAuth(
-  function middleware(req) {
+  function middleware(req: {
+    nextauth: { token: any }
+    nextUrl: { pathname: string }
+    url: string | URL | undefined
+  }) {
     const { token } = req.nextauth
 
     if (
@@ -18,7 +21,16 @@ export default withAuth(
       }
     }
 
-    // If no redirect, return nothing (Next.js expects undefined or NextResponse)
+    // If subscribed user is on /pricing, redirect to dashboard
+    if (
+      token &&
+      token.subscriptionStatus === 'SUBSCRIBED' &&
+      req.nextUrl.pathname.startsWith('/pricing')
+    ) {
+      return NextResponse.redirect(new URL('/dashboard', req.url))
+    }
+
+    // Otherwise, continue with the request
     return NextResponse.next()
   },
   {

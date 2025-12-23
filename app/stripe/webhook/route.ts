@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server'
 import { Stripe } from 'stripe'
 import { prisma } from '@/lib/prisma'
 import { PricingPlans } from '@/app/pricing/config/plans'
+import { SubscriptionTier, SubscriptionStatus } from '@prisma/client'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '')
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || ''
@@ -74,22 +75,22 @@ export const POST = async (req: NextRequest) => {
           await prisma.user.update({
             where: { id: user.id },
             data: {
-              subscriptionStatus: 'SUBSCRIBED',
+              subscriptionStatus: SubscriptionStatus.SUBSCRIBED,
               name: customer.name || '',
               stripeCustomerId: customer.id,
               stripePriceId: priceId,
+              subscriptionTier: plan.subscriptionTier,
             },
           })
+          console.log('User updated successfully')
+
+          return new Response('User updated successfully', { status: 200 })
         } else {
           return new Response('User not found', { status: 500 })
         }
       } else {
         return new Response('Customer not found or deleted', { status: 500 })
       }
-
-      //TODO: Send email to user about successful subscription
-
-      break
 
     case 'customer.subscription.deleted':
       // Handle subscription cancellation
@@ -107,8 +108,11 @@ export const POST = async (req: NextRequest) => {
             subscriptionStatus: 'NOT_SUBSCRIBED',
             stripePriceId: null,
             stripeCustomerId: null,
+            subscriptionTier: SubscriptionTier.BASIC, //TODO: Adjust accordingly to business logic
           },
         })
+
+        //TODO: Send email to user about subscription cancellation
       } else {
         console.error('User not found for cancelled subscription:', customerId)
         return new Response('User not found for cancelled subscription', {

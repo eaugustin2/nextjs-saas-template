@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           subscriptionStatus: user.subscriptionStatus,
           role: user.role,
+          subscriptionTier: user.subscriptionTier,
         }
       },
     }),
@@ -75,13 +76,15 @@ export const authOptions: NextAuthOptions = {
           email: dbUser?.email,
           role: dbUser?.role,
           subscriptionStatus: dbUser?.subscriptionStatus,
+          subscriptionTier: dbUser?.subscriptionTier,
         }
       },
     }),
   ],
   callbacks: {
-    signIn: async ({ user, account }) => {
+    signIn: async () => {
       //can approve/deny who can access app in here
+      // can use { user, account } as params to check if user is allowed to sign in
       return true
     },
     session: ({ session, token }) => {
@@ -96,27 +99,37 @@ export const authOptions: NextAuthOptions = {
           //extra params
           subscriptionStatus: token.subscriptionStatus,
           role: token.role,
+          subscriptionTier: token.subscriptionTier,
         },
       }
     },
     jwt: async ({ token, user }) => {
       console.log('JWT Callback', { token, user })
 
-      const dbUser = await prisma.user.findUnique({
-        where: {
-          email: token.email || '',
-        },
-      })
-
-      console.log('dbUser: ', dbUser)
-
       if (user) {
+        //initial sign in
         token.id = Number(user.id)
         token.email = user.email
         token.name = user.name
         token.subscriptionStatus = user.subscriptionStatus!
         token.role = user.role
+        token.subscriptionTier = user.subscriptionTier
+      } else {
+        const dbUser = await prisma.user.findUnique({
+          where: {
+            email: token.email || '',
+          },
+        })
+
+        console.log('dbUser: ', dbUser)
+
+        if (dbUser) {
+          token.subscriptionStatus = dbUser.subscriptionStatus!
+          token.role = dbUser.role
+          token.subscriptionTier = dbUser.subscriptionTier
+        }
       }
+
       console.log('token to be returned: ', token)
       return token
     },

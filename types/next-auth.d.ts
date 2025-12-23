@@ -6,6 +6,7 @@ declare module 'next-auth' {
       id: number
       role: string
       subscriptionStatus: string
+      subscriptionTier: string
     } & DefaultSession['user']
   }
 
@@ -13,6 +14,7 @@ declare module 'next-auth' {
     id: number
     role: string
     subscriptionStatus: string
+    subscriptionTier: string
   }
 }
 
@@ -21,5 +23,6 @@ declare module 'next-auth/jwt' {
     id: number
     role: string
     subscriptionStatus: string
+    subscriptionTier: string
   }
 }

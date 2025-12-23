@@ -1,10 +1,9 @@
-import Pricing from './Pricing'
+import Pricing from '@/components/landing/Pricing/Pricing'
 import styles from './pricing.module.css'
 
 const PricingPage = () => {
   return (
     <div className={styles.pricingPageContainer}>
-      <h1>Pricing Page</h1>
       <Pricing />
     </div>
   )
